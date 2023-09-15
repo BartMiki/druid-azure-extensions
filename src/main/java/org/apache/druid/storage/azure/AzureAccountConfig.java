@@ -46,6 +46,9 @@ public class AzureAccountConfig
   @JsonProperty
   private String sharedAccessStorageToken;
 
+  @JsonProperty
+  private String endpointSuffix = AzureUtils.DEFAULT_AZURE_ENDPOINT_SUFFIX;
+
   @SuppressWarnings("unused") // Used by Jackson deserialization?
   public void setProtocol(String protocol)
   {
@@ -68,6 +71,18 @@ public class AzureAccountConfig
   {
     this.key = key;
   }
+
+  public void setSharedAccessStorageToken(String sharedAccessStorageToken)
+  {
+    this.sharedAccessStorageToken = sharedAccessStorageToken;
+  }
+
+  @SuppressWarnings("unused") // Used by Jackson deserialization?
+  public void setEndpointSuffix(String endpointSuffix)
+  {
+    this.endpointSuffix = endpointSuffix;
+  }
+
 
   public String getProtocol()
   {
@@ -94,9 +109,14 @@ public class AzureAccountConfig
     return sharedAccessStorageToken;
   }
 
-  @SuppressWarnings("unused") // Used by Jackson deserialization?
-  public void setSharedAccessStorageToken(String sharedAccessStorageToken)
+  public String getEndpointSuffix()
   {
-    this.sharedAccessStorageToken = sharedAccessStorageToken;
+    return endpointSuffix;
   }
+
+  public String getBlobStorageEndpointSuffix()
+  {
+    return "blob." + endpointSuffix;
+  }
+
 }

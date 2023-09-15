@@ -23,22 +23,26 @@ title: "Microsoft Azure"
   -->
 
 
-To use this Apache Druid extension, [include](../../development/extensions.md#loading-extensions) `druid-azure-extensions` in the extensions load list.
+To use this Apache Druid
+extension, [include](../../development/extensions.md#loading-extensions) `druid-azure-extensions` in the extensions load
+list.
 
 ## Deep Storage
 
-[Microsoft Azure Storage](http://azure.microsoft.com/en-us/services/storage/) is another option for deep storage. This requires some additional Druid configuration.
+[Microsoft Azure Storage](http://azure.microsoft.com/en-us/services/storage/) is another option for deep storage. This
+requires some additional Druid configuration.
 
-|Property|Description|Possible Values|Default|
-|--------|---------------|-----------|-------|
-|`druid.storage.type`|azure||Must be set.|
-|`druid.azure.account`||Azure Storage account name.|Must be set.|
-|`druid.azure.key`||Azure Storage account key.|Optional. Either set key or sharedAccessStorageToken but not both.|
-|`druid.azure.sharedAccessStorageToken`||Azure Shared Storage access token|Optional. Either set key or sharedAccessStorageToken but not both.| 
-|`druid.azure.container`||Azure Storage container name.|Must be set.|
-|`druid.azure.prefix`|A prefix string that will be prepended to the blob names for the segments published to Azure deep storage| |""|
-|`druid.azure.protocol`|the protocol to use|http or https|https|
-|`druid.azure.maxTries`|Number of tries before canceling an Azure operation.| |3|
-|`druid.azure.maxListingLength`|maximum number of input files matching a given prefix to retrieve at a time| |1024|
+| Property                               | Description                                                                                               | Possible Values                                        | Default                                                            |
+|----------------------------------------|-----------------------------------------------------------------------------------------------------------|--------------------------------------------------------|--------------------------------------------------------------------|
+| `druid.storage.type`                   | azure                                                                                                     |                                                        | Must be set.                                                       |
+| `druid.azure.account`                  |                                                                                                           | Azure Storage account name.                            | Must be set.                                                       |
+| `druid.azure.key`                      |                                                                                                           | Azure Storage account key.                             | Optional. Either set key or sharedAccessStorageToken but not both. |
+| `druid.azure.sharedAccessStorageToken` |                                                                                                           | Azure Shared Storage access token                      | Optional. Either set key or sharedAccessStorageToken but not both. | 
+| `druid.azure.container`                |                                                                                                           | Azure Storage container name.                          | Must be set.                                                       |
+| `druid.azure.prefix`                   | A prefix string that will be prepended to the blob names for the segments published to Azure deep storage |                                                        | `""`                                                               |
+| `druid.azure.protocol`                 | the protocol to use                                                                                       | `http` or `https`                                      | `https`                                                            |
+| `druid.azure.maxTries`                 | Number of tries before canceling an Azure operation.                                                      |                                                        | `3`                                                                |
+| `druid.azure.maxListingLength`         | maximum number of input files matching a given prefix to retrieve at a time                               |                                                        | `1024`                                                             |
+| `druid.azure.endpointSuffix`           | the endpoint suffix to use.                                                                               | Examples: `core.windows.net`, `core.usgovcloudapi.net` | `core.windows.net`                                                 |
 
 See [Azure Services](http://azure.microsoft.com/en-us/pricing/free-trial/) for more information.
