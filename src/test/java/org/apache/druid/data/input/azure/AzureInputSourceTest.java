@@ -23,11 +23,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterators;
 import nl.jqno.equalsverifier.EqualsVerifier;
+import org.apache.druid.data.input.InputFormat;
 import org.apache.druid.data.input.InputSplit;
 import org.apache.druid.data.input.MaxSizeSplitHintSpec;
 import org.apache.druid.data.input.impl.CloudObjectLocation;
+import org.apache.druid.data.input.impl.JsonInputFormat;
 import org.apache.druid.data.input.impl.SplittableInputSource;
 import org.apache.druid.java.util.common.logger.Logger;
+import org.apache.druid.java.util.common.parsers.JSONPathSpec;
 import org.apache.druid.storage.azure.AzureCloudBlobIterable;
 import org.apache.druid.storage.azure.AzureCloudBlobIterableFactory;
 import org.apache.druid.storage.azure.AzureInputDataConfig;
@@ -61,6 +64,14 @@ public class AzureInputSourceTest extends EasyMockSupport
   private static final String BLOB_PATH = "BLOB_PATH.csv";
   private static final CloudObjectLocation CLOUD_OBJECT_LOCATION_1 = new CloudObjectLocation(CONTAINER, BLOB_PATH);
   private static final int MAX_LISTING_LENGTH = 10;
+
+  private static final InputFormat INPUT_FORMAT = new JsonInputFormat(
+      new JSONPathSpec(true, null),
+      null,
+      false,
+      null,
+      null
+  );
 
   private AzureStorage storage;
   private AzureEntityFactory entityFactory;
@@ -165,7 +176,7 @@ public class AzureInputSourceTest extends EasyMockSupport
     );
 
     Stream<InputSplit<List<CloudObjectLocation>>> cloudObjectStream = azureInputSource.createSplits(
-        null,
+        INPUT_FORMAT,
         new MaxSizeSplitHintSpec(null, 1)
     );
 
@@ -176,7 +187,8 @@ public class AzureInputSourceTest extends EasyMockSupport
   }
 
   @Test
-  public void test_getPrefixesSplitStream_withObjectGlob_successfullyCreatesCloudLocation_returnsExpectedLocations() throws Exception
+  public void test_getPrefixesSplitStream_withObjectGlob_successfullyCreatesCloudLocation_returnsExpectedLocations()
+      throws Exception
   {
     List<URI> prefixes = ImmutableList.of(PREFIX_URI);
     List<List<CloudObjectLocation>> expectedCloudLocations = ImmutableList.of(ImmutableList.of(CLOUD_OBJECT_LOCATION_1));
@@ -213,7 +225,7 @@ public class AzureInputSourceTest extends EasyMockSupport
     );
 
     Stream<InputSplit<List<CloudObjectLocation>>> cloudObjectStream = azureInputSource.createSplits(
-        null,
+        INPUT_FORMAT,
         new MaxSizeSplitHintSpec(null, 1)
     );
 
@@ -262,7 +274,10 @@ public class AzureInputSourceTest extends EasyMockSupport
     );
 
     String actualToString = azureInputSource.toString();
-    Assert.assertEquals("AzureInputSource{uris=[], prefixes=[azure://container/blob], objects=[], objectGlob=null}", actualToString);
+    Assert.assertEquals(
+        "AzureInputSource{uris=[], prefixes=[azure://container/blob], objects=[], objectGlob=null}",
+        actualToString
+    );
   }
 
   @Test
@@ -281,6 +296,7 @@ public class AzureInputSourceTest extends EasyMockSupport
     );
     Assert.assertEquals(ImmutableSet.of(AzureInputSource.SCHEME), azureInputSource.getTypes());
   }
+
   @Test
   public void abidesEqualsContract()
   {

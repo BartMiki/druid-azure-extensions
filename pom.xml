@@ -30,7 +30,7 @@
   <parent>
     <groupId>org.apache.druid</groupId>
     <artifactId>druid</artifactId>
-    <version>26.0.0</version>
+    <version>27.0.0</version>
   </parent>
 
   <properties>
@@ -170,7 +170,6 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.4</version>
         <configuration>
           <excludes>
             <!-- Ignore firehose code -->
