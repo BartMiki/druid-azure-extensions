@@ -155,6 +155,29 @@ public class AzureTaskLogsTest extends EasyMockSupport
     }
   }
 
+
+  @Test
+  public void test_PushTaskStatus_uploadsBlob() throws Exception
+  {
+    final File tmpDir = FileUtils.createTempDir();
+
+    try {
+      final File logFile = new File(tmpDir, "status.json");
+
+      azureStorage.uploadBlob(logFile, CONTAINER, PREFIX + "/" + TASK_ID + "/status.json");
+      EasyMock.expectLastCall();
+
+      replayAll();
+
+      azureTaskLogs.pushTaskStatus(TASK_ID, logFile);
+
+      verifyAll();
+    }
+    finally {
+      FileUtils.deleteDirectory(tmpDir);
+    }
+  }
+
   @Test(expected = RuntimeException.class)
   public void test_PushTaskReports_exception_rethrowsException() throws Exception
   {
